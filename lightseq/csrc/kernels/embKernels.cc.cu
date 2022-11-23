@@ -399,7 +399,7 @@ void launch_enc_emb(const T *token_emb, const T *pos_emb, const int *tokens,
   hidden_dim >>= 2;
   int nele = batch_size * seq_len * hidden_dim;
   int nblock = (nele + MAX_THREADS - 1) / MAX_THREADS;
-  if (multilg_type == 0) {
+  if (multilg_type == 0 || multilg_type == 4) {
     ker_enc_emb<T><<<nblock, MAX_THREADS, 0, stream>>>(
         token_emb, pos_emb, tokens, output, pad_mask, pad_id, batch_size,
         seq_len, hidden_dim);
@@ -428,7 +428,7 @@ void launch_enc_emb<__half>(const __half *token_emb, const __half *pos_emb,
   int nele = batch_size * seq_len * hidden_dim;
   int nblock = (nele + MAX_THREADS - 1) / MAX_THREADS;
 
-  if (multilg_type == 0) {
+  if (multilg_type == 0 || multilg_type == 4) {
     ker_enc_emb<__half><<<nblock, MAX_THREADS, 0, stream>>>(
         token_emb, pos_emb, tokens, output, pad_mask, pad_id, batch_size,
         seq_len, hidden_dim);
