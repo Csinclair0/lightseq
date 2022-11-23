@@ -113,7 +113,7 @@ void MoeWeight<OpType_>::proto_get_model_config(const Moe &moe,
       langs2gate_langs.push_back(lang);
     }
     for (int gate : moe.lang2gate().gates()) {
-      langs2gate_gates.push_back(lang);
+      langs2gate_gates.push_back(gate);
     }
 
     for (int i = 0; i < langs2gate_langs.size(); i++) {
