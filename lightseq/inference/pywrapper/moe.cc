@@ -116,7 +116,7 @@ void Moe::Infer() {
                                  d_trg_lang_id_, d_input_, batch_size, seq_len,
                                  stream_);
     
-    //encoder_->_p_d_token_id = d_input_ - 1; 
+    encoder_->_p_d_token_id = d_input_; 
     if (tw_._multilg_type == 1) {
       seq_len -= 1;
     }
