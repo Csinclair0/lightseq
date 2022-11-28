@@ -104,18 +104,23 @@ int Transformer::get_output_seq_len() { return decoder_->_cur_step + 1; };
 void Transformer::Infer() {
   int batch_size = input_shapes_[0][0], seq_len = input_shapes_[0][1];
 
+  print_vec(d_input_, "input0", batch_size * batch_seq_len)
   // for multilg
   if (tw_._multilg_type != 0) {
     // multilg request: src_lang_id, trg_lang_id, src_token0, src_token1...
     launch_split_multilg_request(encoder_->_p_d_token_id, d_src_lang_id_,
                                  d_trg_lang_id_, d_input_, batch_size, seq_len,
                                  stream_);
+    
+    
+    print_vec(d_input_, "input1", batch_size * batch_seq_len)
     encoder_->_p_d_token_id = d_input_;
+    
     if (tw_._multilg_type == 1) {
       seq_len -= 2;
     }
     if (tw_._multilg_type == 2 || tw_._multilg_type == 3) {
-      seq_len -= 2;
+      seq_len -= 1;
     }
   }
 
