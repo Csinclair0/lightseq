@@ -104,7 +104,7 @@ int Transformer::get_output_seq_len() { return decoder_->_cur_step + 1; };
 void Transformer::Infer() {
   int batch_size = input_shapes_[0][0], seq_len = input_shapes_[0][1];
 
-  print_vec(d_input_, "input0", batch_size * seq_len)
+  print_vec(d_input_, "input0", batch_size * seq_len);
   // for multilg
   if (tw_._multilg_type != 0) {
     // multilg request: src_lang_id, trg_lang_id, src_token0, src_token1...
@@ -113,7 +113,7 @@ void Transformer::Infer() {
                                  stream_);
     
     
-    print_vec(d_input_, "input1", batch_size * seq_len)
+    print_vec(d_input_, "input1", batch_size * seq_len);
     encoder_->_p_d_token_id = d_input_;
     
     if (tw_._multilg_type == 1) {
