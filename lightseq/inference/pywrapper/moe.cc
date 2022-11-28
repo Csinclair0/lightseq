@@ -118,7 +118,7 @@ void Moe::Infer() {
     
     encoder_->_p_d_token_id = d_input_; 
     if (tw_._multilg_type == 1) {
-      seq_len -= 1;
+      seq_len -= 2;
     }
     if (tw_._multilg_type == 2 || tw_._multilg_type == 3) {
       seq_len -= 1;
