@@ -487,6 +487,8 @@ int Context::ExecuteGPU(const uint32_t payload_cnt, CustomPayload* payloads,
   int err;
   for (uint32_t pidx = 0; pidx < payload_cnt; ++pidx) {
     CustomPayload& payload = payloads[pidx];
+    lightseq::cuda::print_vec(d_input_, "d_input0", 10);
+    lightseq::cuda::print_vec(d_input_copy, "d_input_copy_0", 10);
 
     // For this payload the expected size of the input and output
     // tensors is determined by the batch-size of this payload.
@@ -507,7 +509,8 @@ int Context::ExecuteGPU(const uint32_t payload_cnt, CustomPayload* payloads,
       payload.error_code = err;
       continue;
     }
-
+    lightseq::cuda::print_vec(d_input_, "d_input1", 10);
+    lightseq::cuda::print_vec(d_input_copy, "d_input_copy_1", 10);
     // for multilg
     if (tw_._multilg_type != 0) {
       // multilg request: src_lang_id, trg_lang_id, src_token0, src_token1...
@@ -515,13 +518,14 @@ int Context::ExecuteGPU(const uint32_t payload_cnt, CustomPayload* payloads,
           (int*)d_input_copy_, (int*)d_src_lang_id_, (int*)d_trg_lang_id_,
           (int*)d_input_, payload.batch_size, batch_seq_len, stream_);
     }
-    //if (tw_._multilg_type == 1) {
-    //  batch_seq_len -= 2;
-    //}
-    //if (tw_._multilg_type == 2 || tw_._multilg_type == 3) {
-    //  batch_seq_len -= 1;
-    //}
-
+    if (tw_._multilg_type == 1) {
+      batch_seq_len -= 2;
+    }
+    if (tw_._multilg_type == 2 || tw_._multilg_type == 3) {
+      batch_seq_len -= 1;
+    }
+    lightseq::cuda::print_vec(d_input_, "d_input2", 10);
+    lightseq::cuda::print_vec(d_input_copy, "d_input_copy_2", 10);
     encoder_->run_one_infer(payload.batch_size, batch_seq_len);
     decoder_->run_one_infer(payload.batch_size, batch_seq_len);
     // The output shape is [payload-batch-size, shape] if the model
