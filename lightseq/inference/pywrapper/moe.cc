@@ -115,7 +115,8 @@ void Moe::Infer() {
     launch_split_multilg_request(encoder_->_p_d_token_id, d_src_lang_id_,
                                  d_trg_lang_id_, d_input_, batch_size, seq_len,
                                  stream_);
-    encoder_->_p_d_token_id = d_input_;
+    
+    encoder_->_p_d_token_id = d_input_; 
     if (tw_._multilg_type == 1) {
       seq_len -= 2;
     }

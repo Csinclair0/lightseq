@@ -79,16 +79,20 @@ void MoeWeight<OpType_>::proto_get_model_config(const Moe &moe,
 
   std::vector<int> moe_list;
   _is_moe_layer_encoder = std::vector<bool>(_n_enc_layer, false);
-  for (int id : moe.model_conf().moe_list_encoder()) moe_list.push_back(id);
-  _n_moelayer_encoder = moe_list.size();
+  for (int id : moe.model_conf().moe_list_encoder()) {
+    moe_list.push_back(id);
+    _n_moelayer_encoder = moe_list.size();
+  }
   for (int moe_layer_id : moe_list) {
     _is_moe_layer_encoder[moe_layer_id] = true;
   }
 
   moe_list.clear();
   _is_moe_layer_decoder = std::vector<bool>(_n_dec_layer, false);
-  for (int id : moe.model_conf().moe_list_decoder()) moe_list.push_back(id);
-  _n_moelayer_decoder = moe_list.size();
+  for (int id : moe.model_conf().moe_list_decoder()) {
+    moe_list.push_back(id);
+    _n_moelayer_decoder = moe_list.size();
+  }
   for (int moe_layer_id : moe_list) {
     _is_moe_layer_decoder[moe_layer_id] = true;
   }
